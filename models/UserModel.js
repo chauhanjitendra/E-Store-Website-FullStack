@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
     password:{
         type: String,
         required:true,
-        trim:true,
+        // trim:true,
         select:false,
     },
     avatar:{
@@ -35,7 +35,7 @@ const UserSchema = new mongoose.Schema({
             trim:true,
         }
     },
-    isEmaileVerified:{
+    isEmailVerified:{
         type:Boolean,
         default:false,
     },
@@ -59,11 +59,11 @@ UserSchema.pre('save', async function() {
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-UserSchema.methods ={
-    comparePassword: async function (password){
-        return await bcrypt.compare(password, this.password);
+UserSchema.methods.
+    comparePassword= async function (candidatePassword){
+        return await bcrypt.compare(candidatePassword, this.password);
     }   
-}
+
 
 const userModel =mongoose.models.User || mongoose.model('User', UserSchema, 'users');
 

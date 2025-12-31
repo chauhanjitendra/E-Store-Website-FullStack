@@ -25,6 +25,7 @@ import { FaRegEye } from "react-icons/fa6";
 import Link from "next/link";
 import { WEBSITE_LOGIN } from "@/routes/WebsiteRoute";
 import axios from "axios";
+import { showToast } from "@/lib/showToast";
 const Registerpage = () => {
   const [loading, setLoading] = useState(false);
   const [isTypePassword, setTypePassword] = useState(true);
@@ -55,14 +56,15 @@ const Registerpage = () => {
   const handleRegisterSubmit = async (value) => {
     try {
         setLoading(true)
-        const {data:RegisterResponse} = await axios.post('/api/auth/register',value)
+        const { confirmPassword, ...payload } = value;
+        const {data:RegisterResponse} = await axios.post('/api/auth/register',payload)
         if (!RegisterResponse.success) {
             throw new Error(RegisterResponse.message)
         }
         form.reset()
-        alert(RegisterResponse.message)
+        showToast('success',RegisterResponse.message)
     } catch (error) {
-        alert(error.message)
+        showToast('error',RegisterResponse.message)
     }
     finally{
         setLoading(false)

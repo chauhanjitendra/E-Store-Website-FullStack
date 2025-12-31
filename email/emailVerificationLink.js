@@ -209,7 +209,7 @@ export const emailVerificationLink = (link) => {
                                                                     <p style="margin: 0;">Thank you,<br />
                                                                         <a href="https://www.youtube.com/@developergoswami"
                                                                             target="_blank">Developer
-                                                                            Goswami</a>
+                                                                            Jitendra</a>
                                                                     </p>
                                                                 </div>
                                                             </td>
