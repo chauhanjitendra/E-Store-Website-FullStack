@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
     password:{
         type: String,
         required:true,
-        // trim:true,
+        trim:true,
         select:false,
     },
     avatar:{
@@ -58,6 +58,12 @@ UserSchema.pre('save', async function() {
   if (!this.isModified('password')) return;
   this.password = await bcrypt.hash(this.password, 10);
 });
+
+// UserSchema.pre('save', async function (next) {
+//   if (!this.isModified('password')) return next();
+//   this.password = await bcrypt.hash(this.password, 10);
+//   next();
+// });
 
 UserSchema.methods.
     comparePassword= async function (candidatePassword){

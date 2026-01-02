@@ -48,13 +48,13 @@ export async function POST(request) {
     }
 
     // ✅ Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // const hashedPassword = await bcrypt.hash(password, 10);
 
     // ✅ Create user
     const newUser = new UserModel({
       name,
       email,
-      password: hashedPassword,
+      password,
     });
 
     await newUser.save();

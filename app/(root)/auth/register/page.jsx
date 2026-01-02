@@ -55,21 +55,26 @@ const Registerpage = () => {
 
   const handleRegisterSubmit = async (value) => {
     try {
-        setLoading(true)
-        const { confirmPassword, ...payload } = value;
-        const {data:RegisterResponse} = await axios.post('/api/auth/register',payload)
-        if (!RegisterResponse.success) {
-            throw new Error(RegisterResponse.message)
-        }
-        form.reset()
-        showToast('success',RegisterResponse.message)
+      setLoading(true);
+      const { confirmPassword, ...payload } = value;
+      const { data: RegisterResponse } = await axios.post(
+        "/api/auth/register",
+        payload
+      );
+      if (!RegisterResponse.success) {
+        throw new Error(RegisterResponse.message);
+      }
+      form.reset();
+      showToast("success", RegisterResponse.message);
     } catch (error) {
-        showToast('error',RegisterResponse.message)
+      showToast(
+        "error",
+        error.response?.data?.message || error.message || "Something went wrong"
+      );
+    } finally {
+      setLoading(false);
     }
-    finally{
-        setLoading(false)
-    }
-};
+  };
 
   return (
     <Card className="w-[400px]">

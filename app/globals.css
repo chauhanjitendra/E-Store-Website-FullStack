@@ -149,7 +149,27 @@
   --sidebar-ring: oklch(0.72 0.22 285);
 }
 
+/* OTP INPUT FIX */
+[data-input-otp-slot] {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
 
+[data-input-otp-slot]:focus-within {
+  outline: none;
+  border-color: hsl(var(--primary));
+}
+
+[data-input-otp-group] {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;
