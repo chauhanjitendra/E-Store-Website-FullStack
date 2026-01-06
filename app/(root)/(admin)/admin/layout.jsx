@@ -1,0 +1,31 @@
+import AppSidebar from "@/components/Application/Admin/AppSidebar";
+import TopBar from "@/components/Application/Admin/TopBar";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { ThemeProvider } from "next-themes";
+import React from "react";
+
+const layout = ({ children }) => {
+  return (
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <SidebarProvider>
+        <AppSidebar />
+        <main className=" md:w-[calc(100vw-16rem)] h-screen overflow-hidden">
+          <div className="pt-[70px] px-8 min-h-[calc(100vh-40px)] pb-10">
+            <TopBar />
+            {children}
+          </div>
+          <div className="border-t h-[40px] flex justify-center items-center bg-gray-50 dark:bg-background text-sm">
+            © 2026 Developer Jitendra™ .All Rights Reserved.
+          </div>
+        </main>
+      </SidebarProvider>
+    </ThemeProvider>
+  );
+};
+
+export default layout;

@@ -4,6 +4,7 @@ import persistStore from "redux-persist/es/persistStore";
 // import storage from "redux-persist/lib/storage"
 import authReducer from "./reducer/authReducer";
 import localStorage from "redux-persist/es/storage";
+import storage from "redux-persist/es/storage";
 
 const rootReducer = combineReducers({
   authStore: authReducer,
@@ -11,7 +12,7 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
   key: "root",
-  storage: localStorage,
+  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
