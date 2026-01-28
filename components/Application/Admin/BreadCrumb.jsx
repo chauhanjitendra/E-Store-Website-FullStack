@@ -7,7 +7,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-const BreadCrumb = ({breadcrumbData}) => {
+const   BreadCrumb = ({breadcrumbData}) => {
   return (
     <div>
       <Breadcrumb className="mb-5">
@@ -25,7 +25,7 @@ const BreadCrumb = ({breadcrumbData}) => {
                 :
                 <div key={index} className="flex items-center">
                     <BreadcrumbItem>
-                        <BreadcrumbLink href={data.href}>{data.Label}</BreadcrumbLink>
+                        <BreadcrumbLink href={data.href} className='font-semibold'>{data.Label}</BreadcrumbLink>
                     </BreadcrumbItem>
                 </div>
             )

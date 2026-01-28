@@ -1,42 +1,47 @@
 import mongoose from "mongoose";
 
 const mediaSchema = new mongoose.Schema({
-    asset_id:{
+    asset_id: {
         type: String,
         require: true,
         trim: true,
     },
-    public_id:{
+    public_id: {
         type: String,
         require: true,
         trim: true,
     },
-    path:{
+    path: {
         type: String,
         require: true,
         trim: true,
     },
-    thumbnail_url:{
+    thumbnail_url: {
         type: String,
         require: true,
         trim: true,
     },
-    alt:{
+    secure_url: {
+        type: String,
+        require: true,
+        trim: true,
+    },
+    alt: {
         type: String,
         trim: true,
     },
-    title:{
+    title: {
         type: String,
         trim: true,
     },
-    deletedAt:{
+    deletedAt: {
         type: Date,
         default: null,
         index: true,
     },
-    
-},  {timestamps: true})
+
+}, { timestamps: true })
 
 
-const mediaModel = mongoose.models.media || mongoose.model('Media', mediaSchema, 'medias')
-export default mediaModel;
+const MediaModel = mongoose.models.Media || mongoose.model('Media', mediaSchema, 'medias')
+export default MediaModel;

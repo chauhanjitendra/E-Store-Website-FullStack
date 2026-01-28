@@ -42,37 +42,75 @@ const OTPVerification = ({ email, type = "reset" }) => {
   });
 
   // ✅ Verify OTP
+  // youtube code
+  // const handleOtpVerification = async (value) => {
+  //   try {
+  //     setIsLoading(true);
+
+  //     const { data } = await axios.post("/api/auth/verify-otp", value);
+
+  //     if (!data.success) throw new Error(data.message);
+
+  //     // ✅ Store user data in localStorage
+  //     if (typeof window !== "undefined") {
+  //       localStorage.setItem("user", JSON.stringify(data.data));
+  //     }
+
+  //     showToast("success", data.message);
+
+  //     // 🔥 LOGIN FLOW → redirect to login page
+  //     if (type === "login") {
+  //       window.location.href = WEBSITE_LOGIN;
+  //       return; // return early to prevent showing UpdatePassword
+  //     }
+
+  //     // 🔥 RESET FLOW → show UpdatePassword component
+  //     if (type === "reset") {
+  //       setOtpVerified(true);
+  //     }
+  //   } catch (error) {
+  //     showToast("error", error.response?.data?.message || error.message);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const handleOtpVerification = async (value) => {
-    try {
-      setIsLoading(true);
+  try {
+    setIsLoading(true);
 
-      const { data } = await axios.post("/api/auth/verify-otp", value);
+    const { data } = await axios.post("/api/auth/verify-otp", value);
 
-      if (!data.success) throw new Error(data.message);
+    if (!data.success) throw new Error(data.message);
 
-      // ✅ Store user data in localStorage
-      if (typeof window !== "undefined") {
-        localStorage.setItem("user", JSON.stringify(data.data));
-      }
-
-      showToast("success", data.message);
-
-      // 🔥 LOGIN FLOW → redirect to login page
-      if (type === "login") {
-        window.location.href = WEBSITE_LOGIN;
-        return; // return early to prevent showing UpdatePassword
-      }
-
-      // 🔥 RESET FLOW → show UpdatePassword component
-      if (type === "reset") {
-        setOtpVerified(true);
-      }
-    } catch (error) {
-      showToast("error", error.response?.data?.message || error.message);
-    } finally {
-      setIsLoading(false);
+    // ✅ Store user data in localStorage
+    if (typeof window !== "undefined") {
+      localStorage.setItem("user", JSON.stringify(data.data));
     }
-  };
+
+    showToast("success", data.message);
+
+    // 🔥 LOGIN FLOW → redirect to ADMIN MEDIA
+    if (type === "login") {
+      if (data.data?.role === "admin") {
+        window.location.href = "/admin/media"; // ✅ ADMIN MEDIA
+      } else {
+        window.location.href = WEBSITE_LOGIN;  // normal user (as per your flow)
+      }
+      return; // return early to prevent showing UpdatePassword
+    }
+
+    // 🔥 RESET FLOW → show UpdatePassword component
+    if (type === "reset") {
+      setOtpVerified(true);
+    }
+  } catch (error) {
+    showToast("error", error.response?.data?.message || error.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const resendOTP = async () => {
     try {
@@ -86,7 +124,7 @@ const OTPVerification = ({ email, type = "reset" }) => {
     } catch (error) {
       showToast("error", error.response?.data?.message || error.message);
     } finally {
-      setIsResendingOtp(false);
+      setResendingOtp(false);
     }
   };
 

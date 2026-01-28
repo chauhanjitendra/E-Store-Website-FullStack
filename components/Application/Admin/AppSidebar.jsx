@@ -27,7 +27,7 @@ import {
 import Link from "next/link";
 
 const AppSidebar = () => {
-  const {toggleSidebar} = useSidebar()
+  const { toggleSidebar } = useSidebar()
   return (
     <Sidebar className='z-50'>
       <SidebarHeader className="border-b h-14 p-0">
@@ -54,36 +54,44 @@ const AppSidebar = () => {
       <SidebarContent>
         <SidebarMenu>
           {adminAppSidebarMenu.map((menu, index) => (
-            <Collapsible key={index} className="group/collapsible">
-              <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton asChild className='font-semibold px-2 py-5'>
-                    <Link href={menu?.url}>
-                      <menu.icons />
-                      {menu.title}
-                      {menu.submenu && menu.submenu.length > 0 && (
+            menu.submenu && menu.submenu.length > 0 ? (
+              <Collapsible key={index} className="group/collapsible">
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton asChild className='font-semibold px-2 py-5'>
+                      <Link href={menu?.url}>
+                        <menu.icons />
+                        {menu.title}
                         <LuChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                      )}
-                    </Link>
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
-                {menu.submenu && menu.submenu.length > 0 && (
+                      </Link>
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
                   <CollapsibleContent>
-                        <SidebarMenuSub>
-                            {menu.submenu.map((submenuItem, subMenuIndex)=>(
-                                <SidebarMenuSubItem key={subMenuIndex}>
-                                    <SidebarMenuSubButton asChild className='px-2 py-5'>
-                                        <Link href={submenuItem.url}>
-                                            {submenuItem.title}
-                                        </Link>
-                                    </SidebarMenuSubButton>
-                                </SidebarMenuSubItem>
-                            ))}
-                        </SidebarMenuSub>
+                    <SidebarMenuSub>
+                      {menu.submenu.map((submenuItem, subMenuIndex) => (
+                        <SidebarMenuSubItem key={subMenuIndex}>
+                          <SidebarMenuSubButton asChild className='px-2 py-5'>
+                            <Link href={submenuItem.url}>
+                              {submenuItem.title}
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
                   </CollapsibleContent>
-                )}
+                </SidebarMenuItem>
+              </Collapsible>
+            ) : (
+              <SidebarMenuItem key={index}>
+                <SidebarMenuButton asChild className='font-semibold px-2 py-5'>
+                  <Link href={menu?.url}>
+                    <menu.icons />
+                    {menu.title}
+                  </Link>
+                </SidebarMenuButton>
               </SidebarMenuItem>
-            </Collapsible>
+            )
+
           ))}
         </SidebarMenu>
       </SidebarContent>

@@ -6,7 +6,7 @@ import axios from "axios";
 import { CldUploadWidget } from "next-cloudinary";
 import { FaPlus } from "react-icons/fa";
 
-const UploadMedia = ({ isMultiple }) => {
+const UploadMedia = ({ isMultiple, queryClient }) => {
   const handleOnError = (error) => {
     showToast("error", error.statusText);
   };
@@ -14,14 +14,15 @@ const UploadMedia = ({ isMultiple }) => {
   const handleOnQueueEnd = async (results) => {
     const file = results.info.files;
     const uploadedFiles = file
-      .filter((file) => file.uploadInfo)
-      .map((file) => ({
+      .filter(file => file.uploadInfo)
+      .map(file => ({
         asset_id: file.uploadInfo.asset_id,
         public_id: file.uploadInfo.public_id,
         secure_url: file.uploadInfo.secure_url,
         path: file.uploadInfo.path,
         thumbnail_url: file.uploadInfo.thumbnail_url,
       }));
+      
     if (uploadedFiles.length > 0) {
       try {
         const { data: mediaUploadResponse } = await axios.post(
@@ -32,6 +33,7 @@ const UploadMedia = ({ isMultiple }) => {
           throw new Error(mediaUploadResponse.message);
         }
 
+        queryClient.invalidateQueries(['media-data'])
         showToast("success", mediaUploadResponse.message);
       } catch (error) {
         showToast("error", error.message);
