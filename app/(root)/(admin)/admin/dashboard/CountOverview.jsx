@@ -6,7 +6,7 @@ import Link from "next/link";
 import React from "react";
 import { BiCategory } from "react-icons/bi";
 import { IoShirtOutline } from "react-icons/io5";
-import { LuUserRound } from "react-icons/lu";
+import { LuUserRound } from "react-icons/lu"; 
 import { MdOutlineShoppingBag } from "react-icons/md";
 
 const CountOverview = () => {

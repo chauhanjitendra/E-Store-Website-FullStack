@@ -1,35 +1,35 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-    name:{
+    name: {
         type: String,
-        require: true,
+        required: true,
         trim: true,
-        // unique: true,
-    },
-    slug:{
-        type: String,
-        require: true,
         unique: true,
-        lowercase:true,
+    },
+    slug: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
         trim: true,
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
-        require: true,
+        required: true,
     },
-    mrp:{
-        type: String,
-        require: true,
-    },
-    sellingPrice:{
+    mrp: {
         type: Number,
-        require: true,
+        required: true,
     },
-    discountPercentages:{
+    sellingPrice: {
         type: Number,
-        require: true,
+        required: true,
+    },
+    discountPercentage: {
+        type: Number,
+        required: true,
     },
     media: [
         {
@@ -38,18 +38,18 @@ const productSchema = new mongoose.Schema({
             required: true,
         }
     ],
-    description:{
+    description: {
         type: String,
         required: true,
     },
-    deletedAt:{
+    deletedAt: {
         type: Date,
         default: null,
-        index:true,
+        index: true,
     },
-    
-},  {timestamps: true})
 
-productSchema.index({ category: 1})
-const ProductModel = mongoose.models.Product || mongoose.model('Products', productSchema,)
+}, { timestamps: true })
+
+productSchema.index({ category: 1 })
+const ProductModel = mongoose.models.Products || mongoose.model('Products', productSchema,)
 export default ProductModel;

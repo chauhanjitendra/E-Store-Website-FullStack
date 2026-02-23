@@ -43,7 +43,7 @@ const AddProduct = () => {
   const [productOption, setProductOption] = useState([]);
   const [editorKey, setEditorKey] = useState(0);
   const { data: getProduct } = useFetch(
-    "/api/product?deleteType=SD&&size=10000",
+    "/api/product?deleteType=SD&&size=10000&public=true",
   );
 
   //   media modal states
@@ -68,7 +68,7 @@ const AddProduct = () => {
     size: true,
     mrp: true,
     sellingPrice: true,
-    discountPercentages: true,
+    discountPercentage: true,
   });
 
   const form = useForm({
@@ -80,7 +80,7 @@ const AddProduct = () => {
       size: "",
       mrp: "",
       sellingPrice: "",
-      discountPercentages: "",
+      discountPercentage: "",
     },
   });
 
@@ -90,12 +90,12 @@ const AddProduct = () => {
     const sellingPrice = Number(form.getValues("sellingPrice"));
 
     if (!mrp || mrp <= 0 || !sellingPrice) {
-      form.setValue("discountPercentages", "");
+      form.setValue("discountPercentage", "");
       return;
     }
 
     const discountPercentage = ((mrp - sellingPrice) / mrp) * 100;
-    form.setValue("discountPercentages", Math.round(discountPercentage));
+    form.setValue("discountPercentage", Math.round(discountPercentage));
   }, [form.watch("mrp"), form.watch("sellingPrice")]);
 
   const onSubmit = async (values) => {
@@ -107,6 +107,8 @@ const AddProduct = () => {
 
       const mediaIds = selectedMedia.map((media) => media._id);
       values.media = mediaIds;
+      values.discountPercentages = values.discountPercentage;
+      delete values.discountPercentage;
 
       const { data: response } = await axios.post(
         "/api/product-variant/create",
@@ -270,7 +272,7 @@ const AddProduct = () => {
                 <div className="mb-3">
                   <FormField
                     control={form.control}
-                    name="discountPercentages"
+                    name="discountPercentage"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>

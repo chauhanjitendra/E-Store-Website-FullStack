@@ -3,7 +3,6 @@ import { connectDB } from "@/lib/databaseConnection";
 import { catchError, response } from "@/lib/helperFunction";
 import { isValidObjectId } from "mongoose";
 import ProductVariantModel from "@/models/ProductVariant.model";
-import Media from "@models/Media.model";
 
 export async function GET(request, {params}){
     try {

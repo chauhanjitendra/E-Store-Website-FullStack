@@ -1,33 +1,31 @@
 import mongoose from "mongoose";
 
 const couponSchema = new mongoose.Schema({
-    code:{
+    code: {
         type: String,
-        require: true,
+        required: true,
         trim: true,
         unique: true,
     },
-    discountPercentage:{
+    discountPercentage: {
         type: Number,
-        require: true,
-        trim: true,
+        required: true,
     },
-    minShoppingAmount:{
+    minShoppingAmount: {
         type: Number,
-        require: true,
-        trim: true,
+        required: true,
     },
-    validity:{
+    validity: {
         type: Date,
-        require: true,
+        required: true,
     },
-    deletedAt:{
+    deletedAt: {
         type: Date,
         default: null,
         index: true,
     },
-    
-},  {timestamps: true})
+
+}, { timestamps: true })
 
 
 const CouponModel = mongoose.models.Coupon || mongoose.model('Coupon', couponSchema, 'coupons')

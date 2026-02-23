@@ -87,7 +87,7 @@ export async function GET(request) {
                 $project: {
                     _id: 1,
                     code: 1,
-                    discountPercentage: 1,
+                    discountPercentage: { $ifNull: ["$discountPercentage", "$discountPercentages", 0] },
                     minShoppingAmount: 1,
                     validity: 1,
                     createdAt: 1,

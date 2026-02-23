@@ -23,7 +23,11 @@ import { email, z } from "zod";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa6";
 import Link from "next/link";
-import { USER_DASHBOARD, WEBSITE_REGISTER, WEBSITE_RESETPASSWORD } from "@/routes/WebsiteRoute";
+import {
+  USER_DASHBOARD,
+  WEBSITE_REGISTER,
+  WEBSITE_RESETPASSWORD,
+} from "@/routes/WebsiteRoute";
 import axios from "axios";
 import { showToast } from "@/lib/showToast";
 import OTPVerification from "@/components/Application/OTPVerification";
@@ -33,8 +37,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ADMIN_DASHBOARD } from "@/routes/AdminPanelRoute";
 
 const Loginpage = () => {
-  const searchParams =useSearchParams()
-  const router = useRouter()
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [OTPVerificationLoading, setOtpVerificationLoading] = useState(false);
@@ -63,7 +67,7 @@ const Loginpage = () => {
       // const { confirmPassword, ...payload } = value;
       const { data: loginResponse } = await axios.post(
         "/api/auth/login",
-        value
+        value,
       );
       if (!loginResponse.success) {
         throw new Error(loginResponse.message);
@@ -86,7 +90,10 @@ const Loginpage = () => {
     try {
       setOtpVerificationLoading(true);
       // const { confirmPassword, ...payload } = value;
-      const { data: otpResponse } = await axios.post("/api/auth/verify-otp", value);
+      const { data: otpResponse } = await axios.post(
+        "/api/auth/verify-otp",
+        value,
+      );
 
       if (!otpResponse.success) {
         throw new Error(otpResponse.message);
@@ -99,12 +106,13 @@ const Loginpage = () => {
 
       dispatch(login(otpResponse.data));
 
-      if (searchParams.has('callback')){
-        router.push(searchParams.get('callback'))
-      }else{
-        otpResponse.data.role === 'admin' ? router.push(ADMIN_DASHBOARD) : router.push(USER_DASHBOARD)
+      if (searchParams.has("callback")) {
+        router.push(searchParams.get("callback"));
+      } else {
+        otpResponse.data.role === "admin"
+          ? router.push(ADMIN_DASHBOARD)
+          : router.push(USER_DASHBOARD);
       }
-
     } catch (error) {
       showToast("error", error.message);
     } finally {
@@ -198,7 +206,10 @@ const Loginpage = () => {
                       </Link>
                     </div>
                     <div className="mt-3">
-                      <Link href={WEBSITE_RESETPASSWORD} className="text-primary underline">
+                      <Link
+                        href={WEBSITE_RESETPASSWORD}
+                        className="text-primary underline"
+                      >
                         Forgot Password ?
                       </Link>
                     </div>
@@ -208,11 +219,28 @@ const Loginpage = () => {
             </div>
           </>
         ) : (
+          // <OTPVerification
+          //   email={otpEmail}
+          //   onSubmit={handleOtpVerification}
+          //   loading={OTPVerificationLoading}
+          //   type='login'
+          // />
           <OTPVerification
             email={otpEmail}
-            onSubmit={handleOtpVerification}
-            loading={OTPVerificationLoading}
-            type='login'
+            type="login"
+            onSuccess={(userData) => {
+              const callback = searchParams.get("callback");
+
+              if (callback) {
+                router.replace(decodeURIComponent(callback));
+              } else {
+                if (userData.role === "admin") {
+                  router.replace(ADMIN_DASHBOARD);
+                } else {
+                  router.replace(USER_DASHBOARD);
+                }
+              }
+            }}
           />
         )}
       </CardContent>

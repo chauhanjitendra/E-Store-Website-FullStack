@@ -32,18 +32,18 @@ const breadcrumbData = [
   { href: "", Label: "Edit Coupons" },
 ];
 
-const EditCoupon = ({params}) => {
+const EditCoupon = ({ params }) => {
   const { id } = use(params);
   const [loading, setLoading] = useState(false);
-  const {data: getCouponData} = useFetch(`/api/coupon/get/${id}`)
+  const { data: getCouponData } = useFetch(`/api/coupon/get/${id}`)
   const [editorKey, setEditorKey] = useState(0);
- 
+
 
 
   const formSchema = zSchema.pick({
     _id: true,
-    code : true,
-    discountPercentages: true,
+    code: true,
+    discountPercentage: true,
     minShoppingAmount: true,
     validity: true,
   });
@@ -53,24 +53,24 @@ const EditCoupon = ({params}) => {
     defaultValues: {
       _id: id,
       code: "",
-      discountPercentages: "",
+      discountPercentage: "",
       minShoppingAmount: "",
       validity: 0,
     },
   });
 
-  useEffect(()=>{
-    if(getCouponData && getCouponData.success){
+  useEffect(() => {
+    if (getCouponData && getCouponData.success) {
       const coupon = getCouponData.data
       form.reset({
         _id: coupon._id,
         code: coupon.code,
-        discountPercentages: coupon.discountPercentage,
+        discountPercentage: coupon.discountPercentage,
         minShoppingAmount: coupon.minShoppingAmount,
         validity: dayjs(coupon.validity).format('YYYY-MM-DD'),
       })
     }
-  },[getCouponData])
+  }, [getCouponData])
 
   const onSubmit = async (values) => {
     setLoading(true);
@@ -127,11 +127,11 @@ const EditCoupon = ({params}) => {
                     )}
                   />
                 </div>
-                
+
                 <div className="">
                   <FormField
                     control={form.control}
-                    name="discountPercentages"
+                    name="discountPercentage"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>

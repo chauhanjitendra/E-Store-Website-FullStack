@@ -169,11 +169,53 @@
   gap: 0.5rem;
   justify-content: center;
 }
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes border-beam {
+    from {
+      offset-distance: 0%;
+    }
+
+    to {
+      offset-distance: 100%;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+
+    100% {
+      transform: translateX(200%);
+    }
+  }
+}
+
+.animate-border-beam {
+  animation: border-beam 4s linear infinite;
+}
+
+.animate-shimmer-sweep {
+  animation: shimmer 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.slick-dots {
+  bottom: 10px !important;
+}
+
+/* @media print {
+  .no-print {
+    display: none !important;
+  }
+} */

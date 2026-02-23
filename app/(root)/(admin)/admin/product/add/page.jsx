@@ -62,7 +62,7 @@ const AddProduct = () => {
     category: true,
     mrp: true,
     sellingPrice: true,
-    discountPercentages: true,
+    discountPercentage: true,
     description: true,
   });
 
@@ -74,7 +74,7 @@ const AddProduct = () => {
       category: "",
       mrp: "",
       sellingPrice: "",
-      discountPercentages: "",
+      discountPercentage: "",
       description: "",
     },
   });
@@ -97,12 +97,12 @@ const AddProduct = () => {
     const sellingPrice = Number(form.getValues("sellingPrice"));
 
     if (!mrp || mrp <= 0 || !sellingPrice) {
-      form.setValue("discountPercentages", "");
+      form.setValue("discountPercentage", "");
       return;
     }
 
     const discountPercentage = ((mrp - sellingPrice) / mrp) * 100;
-    form.setValue("discountPercentages", Math.round(discountPercentage));
+    form.setValue("discountPercentage", Math.round(discountPercentage));
   }, [form.watch("mrp"), form.watch("sellingPrice")]);
 
   const editor = (event, editor) => {
@@ -259,7 +259,7 @@ const AddProduct = () => {
                 <div className="">
                   <FormField
                     control={form.control}
-                    name="discountPercentages"
+                    name="discountPercentage"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>

@@ -36,9 +36,9 @@ const breadcrumbData = [
   { href: "", Label: "Edit Products" },
 ];
 
-const EditProduct = ({params}) => {
+const EditProduct = ({ params }) => {
 
-  const {id} = use(params);
+  const { id } = use(params);
 
 
   const [loading, setLoading] = useState(false);
@@ -47,10 +47,10 @@ const EditProduct = ({params}) => {
   const { data: getCategory } = useFetch(
     "/api/category?deleteType=SD&&size=10000",
   );
-  const {data: getproduct, loading: getProductLoading} = useFetch(`/api/product/get/${id}`);
+  const { data: getproduct, loading: getProductLoading } = useFetch(`/api/product/get/${id}`);
 
   // console.log(getproduct);
-  
+
   //   media modal states
   const [open, setOpen] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState([]);
@@ -69,7 +69,7 @@ const EditProduct = ({params}) => {
     category: true,
     mrp: true,
     sellingPrice: true,
-    discountPercentages: true,
+    discountPercentage: true,
     description: true,
   });
 
@@ -81,13 +81,13 @@ const EditProduct = ({params}) => {
       category: "",
       mrp: "",
       sellingPrice: "",
-      discountPercentages: "",
+      discountPercentage: "",
       description: "",
     },
   });
 
   useEffect(() => {
-    if(getproduct && getproduct.success){
+    if (getproduct && getproduct.success) {
       const productData = getproduct.data;
       form.reset({
         name: productData.name,
@@ -95,12 +95,12 @@ const EditProduct = ({params}) => {
         category: productData.category,
         mrp: productData.mrp,
         sellingPrice: productData.sellingPrice,
-        discountPercentages: productData.discountPercentages,
+        discountPercentage: productData.discountPercentage,
         description: productData.description
       })
 
-      if(productData){
-        const media = productData.media.map((media)=>({_id: media._id, url:media.secure_url}))
+      if (productData) {
+        const media = productData.media.map((media) => ({ _id: media._id, url: media.secure_url }))
         setSelectedMedia(media);
       }
     }
@@ -126,12 +126,12 @@ const EditProduct = ({params}) => {
     const sellingPrice = Number(form.getValues("sellingPrice"));
 
     if (!mrp || mrp <= 0 || !sellingPrice) {
-      form.setValue("discountPercentages", "");
+      form.setValue("discountPercentage", "");
       return;
     }
 
     const discountPercentage = ((mrp - sellingPrice) / mrp) * 100;
-    form.setValue("discountPercentages", Math.round(discountPercentage));
+    form.setValue("discountPercentage", Math.round(discountPercentage));
   }, [form.watch("mrp"), form.watch("sellingPrice")]);
 
   const editor = (event, editor) => {
@@ -289,7 +289,7 @@ const EditProduct = ({params}) => {
                 <div className="">
                   <FormField
                     control={form.control}
-                    name="discountPercentages"
+                    name="discountPercentage"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
@@ -313,10 +313,10 @@ const EditProduct = ({params}) => {
                   <FormLabel className="mb-3">
                     Description <span className="text-red-500">*</span>
                   </FormLabel>
-                    {!getProductLoading &&
+                  {!getProductLoading &&
                     <Editor key={editorKey} onChange={editor} initialData={form.getValues('description')} />
-                      
-                    }
+
+                  }
                   <FormMessage></FormMessage>
                 </div>
               </div>

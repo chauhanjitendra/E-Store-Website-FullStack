@@ -1,35 +1,34 @@
 import mongoose from "mongoose";
 
 const ProductVariantSchema = new mongoose.Schema({
-    product:{
+    product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        ref: 'Products',
         required: true,
-    },  
-    color:{
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
     },
-    size:{
+    color: {
         type: String,
         required: true,
         trim: true,
     },
-    mrp:{
+    size: {
         type: String,
         required: true,
+        trim: true,
     },
-    sellingPrice:{
+    mrp: {
         type: Number,
         required: true,
     },
-    discountPercentages:{
+    sellingPrice: {
         type: Number,
         required: true,
     },
-    sku:{
+    discountPercentages: {
+        type: Number,
+        required: true,
+    },
+    sku: {
         type: String,
         required: true,
         unique: true,
@@ -42,13 +41,13 @@ const ProductVariantSchema = new mongoose.Schema({
             required: true,
         }
     ],
-    deletedAt:{
+    deletedAt: {
         type: Date,
         default: null,
-        index:true,
+        index: true,
     },
-    
-},  {timestamps: true})
+
+}, { timestamps: true })
 
 
 const ProductVariantModel = mongoose.models.ProductVariant || mongoose.model('ProductVariant', ProductVariantSchema, 'ProductVariants')

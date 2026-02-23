@@ -11,8 +11,7 @@ import { WEBSITE_LOGIN } from "@/routes/WebsiteRoute";
 const LogoutButton = () => {
     const dispatch = useDispatch()
     const router = useRouter()
-
-
+    
     const handleLogout = async ()=>{
         try {
             const {data: logoutResponse} = await axios.post('/api/auth/logout')

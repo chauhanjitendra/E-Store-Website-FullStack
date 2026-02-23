@@ -34,17 +34,17 @@ export async function POST(request) {
 
     const getUser = await userModel
       .findOne({ deletedAt: null, email })
-      .select("_id name role")
+      .select("_id name role avatar")
       .lean();
     if (!getUser) {
       return response(false, 404, "User Not Found.");
     }
 
     const loggedInUserData = {
-      id: getUser._id,
+      id: getUser._id.toString(),
       role: getUser.role,
       name: getUser.name,
-      _avatar: getUser._avatar,
+      avatar: getUser.avatar,
     };
 
     const secret = new TextEncoder().encode(process.env.SECRET_KEY);
@@ -72,6 +72,7 @@ export async function POST(request) {
       _id: getUser._id,
       name: getUser.name,
       role: getUser.role,
+      avatar: getUser.avatar,
     });
   } catch (error) {
     return catchError(error);

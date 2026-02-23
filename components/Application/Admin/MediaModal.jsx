@@ -13,6 +13,7 @@ import loading from "@/public/assets/images/loading.svg";
 import React, { useState } from "react";
 import ModalMediaBlock from "./ModalMediaBlock";
 import { showToast } from "@/lib/showToast";
+import ButtonLoading from "../ButtonLoading";
 
 const MediaModel = ({
   open,
@@ -21,12 +22,11 @@ const MediaModel = ({
   setSelectedMedia,
   isMultiple,
 }) => {
-
-  const [previouslySelected, setPreviouslySelected] = useState([])
+  const [previouslySelected, setPreviouslySelected] = useState([]);
 
   const fetchMedia = async (page) => {
     const { data: response } = await axios.get(
-      `/api/media?page=${page}&&limit=18&&deleteType=SD`
+      `/api/media?page=${page}&&limit=18&&deleteType=SD`,
     );
     return response;
   };
@@ -38,7 +38,7 @@ const MediaModel = ({
     data,
     isFetching,
     fetchNextPage,
-    hasNectPage,
+    hasNextPage: hasNectPage,
   } = useInfiniteQuery({
     queryKey: ["MediaModal"],
     queryFn: async ({ pageParam }) => await fetchMedia(pageParam),
@@ -51,20 +51,20 @@ const MediaModel = ({
   });
 
   const handleClear = () => {
-    setSelectedMedia([])
-    setPreviouslySelected([])
-    showToast('success', 'Media Selection Cleared.')
+    setSelectedMedia([]);
+    setPreviouslySelected([]);
+    showToast("success", "Media Selection Cleared.");
   };
   const handleClose = () => {
-    setSelectedMedia(previouslySelected)
-    setOpen(false)
+    setSelectedMedia(previouslySelected);
+    setOpen(false);
   };
   const handleSelect = () => {
-      if(selectedMedia.length <=0){
-        return showToast('error', 'Please Selected a Media.')
-      }
-      setPreviouslySelected(selectedMedia)
-      setOpen(false)
+    if (selectedMedia.length <= 0) {
+      return showToast("error", "Please Selected a Media.");
+    }
+    setPreviouslySelected(selectedMedia);
+    setOpen(false);
   };
   return (
     <Dialog open={open} onOpenChange={() => setOpen(!open)}>
@@ -78,7 +78,7 @@ const MediaModel = ({
             <DialogTitle>Media Selection</DialogTitle>
           </DialogHeader>
 
-          <div className="h-[calc(100%-80px)] overflow-hidden py-2">
+          <div className="h-[calc(100%-80px)] overflow-y-auto py-2">
             {isPending ? (
               <div className="size-full flex justify-center items-center">
                 <Image src={loading} alt="loading" height={80} width={80} />
@@ -89,7 +89,7 @@ const MediaModel = ({
               </div>
             ) : (
               <>
-                <div className="grid lg:grid-cols-6 grid-cols-3 gap-2">
+                {/* <div className="grid lg:grid-cols-6 grid-cols-3 gap-2">
                   {data?.pages?.map((page, index) => (
                     <React.Fragment key={index}>
                       {page?.mediaData?.map((media) => (
@@ -103,7 +103,33 @@ const MediaModel = ({
                       ))}
                     </React.Fragment>
                   ))}
+                </div> */}
+                <div className="grid lg:grid-cols-6 grid-cols-3 gap-2">
+                  {data?.pages?.flatMap((page) =>
+                    page?.mediaData?.map((media) => (
+                      <ModalMediaBlock
+                        key={media._id}
+                        media={media}
+                        selectedMedia={selectedMedia}
+                        setSelectedMedia={setSelectedMedia}
+                        isMultiple={isMultiple}
+                      />
+                    )),
+                  )}
                 </div>
+
+                {hasNectPage ? (
+                  <div className="flex justify-center py-5">
+                    <ButtonLoading
+                      type="button"
+                      onClick={() => fetchNextPage()}
+                      loading={isFetching}
+                      text="Load More"
+                    />
+                  </div>
+                ) : (
+                  <p className="text-center py-5">Noting More To Load</p>
+                )}
               </>
             )}
           </div>

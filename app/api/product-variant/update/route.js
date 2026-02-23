@@ -23,7 +23,6 @@ export async function POST(request) {
       size: true,
       mrp: true,
       sellingPrice: true,
-      discountPercentages: true,
       media: true,
     });
 
@@ -33,6 +32,23 @@ export async function POST(request) {
     }
 
     const validatedData = validate.data;
+
+    // Normalize/compute discountPercentages: accept either `discountPercentages` or `discountPercentage` from payload
+    let finalDiscount = null;
+    if (payload.discountPercentages !== undefined && payload.discountPercentages !== null) {
+      finalDiscount = Number(payload.discountPercentages);
+    } else if (payload.discountPercentage !== undefined && payload.discountPercentage !== null) {
+      finalDiscount = Number(payload.discountPercentage);
+    } else {
+      const mrpVal = Number(validatedData.mrp);
+      const sellVal = Number(validatedData.sellingPrice);
+      if (mrpVal && mrpVal > 0 && !isNaN(sellVal)) {
+        finalDiscount = Math.round(((mrpVal - sellVal) / mrpVal) * 100);
+      } else {
+        finalDiscount = 0;
+      }
+    }
+    validatedData.discountPercentages = finalDiscount;
 
     const getProductVariant = await ProductVariantModel.findOne({
       deletedAt: null,

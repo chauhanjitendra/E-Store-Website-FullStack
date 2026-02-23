@@ -40,12 +40,12 @@ const breadcrumbData = [
 const AddCoupon = () => {
   const [loading, setLoading] = useState(false);
   const [editorKey, setEditorKey] = useState(0);
- 
+
 
 
   const formSchema = zSchema.pick({
-    code : true,
-    discountPercentages: true,
+    code: true,
+    discountPercentage: true,
     minShoppingAmount: true,
     validity: true,
   });
@@ -54,9 +54,9 @@ const AddCoupon = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       code: "",
-      discountPercentages: "",
+      discountPercentage: "",
       minShoppingAmount: "",
-      validity: 0,
+      validity: "",
     },
   });
 
@@ -116,11 +116,11 @@ const AddCoupon = () => {
                     )}
                   />
                 </div>
-                
+
                 <div className="">
                   <FormField
                     control={form.control}
-                    name="discountPercentages"
+                    name="discountPercentage"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>

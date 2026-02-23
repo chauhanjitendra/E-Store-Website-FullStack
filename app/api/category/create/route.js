@@ -2,7 +2,6 @@ import { isAuthenticated } from "@/lib/authServer";
 import { connectDB } from "@/lib/databaseConnection";
 import { catchError, response } from "@/lib/helperFunction";
 import { zSchema } from "@/lib/zodSchema";
-import CategoryModel from "@/models/Category.Model"; // ✅ IMPORTANT
 
 export async function POST(request) {
   try {

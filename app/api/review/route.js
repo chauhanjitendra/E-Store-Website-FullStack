@@ -1,7 +1,9 @@
 import { isAuthenticated } from "@/lib/authServer";
 import { connectDB } from "@/lib/databaseConnection";
-import { catchError } from "@/lib/helperFunction";
+import { catchError, response } from "@/lib/helperFunction";
 import ReviewModel from "@/models/Review.Model";
+import ProductModel from "@/models/Product.model";
+import userModel from "@/models/UserModel";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
@@ -45,11 +47,11 @@ export async function GET(request) {
 
         // column filteration
         filters.forEach(filter => {
-            if(filter.id === 'product'){
+            if (filter.id === 'product') {
                 matchQuery['productData.name'] = { $regex: filter.value, $options: 'i' }
-            }else if (filter.id === 'user'){
+            } else if (filter.id === 'userName' || filter.id === 'user') {
                 matchQuery['userData.name'] = { $regex: filter.value, $options: 'i' }
-            } else{
+            } else {
                 matchQuery[filter.id] = { $regex: filter.value, $options: 'i' }
             }
         });
@@ -57,33 +59,58 @@ export async function GET(request) {
         // sorting
         let sortQuery = {}
         sorting.forEach(sort => {
-            sortQuery[sort.id] = sort.desc ? -1 : 1
+            if (sort.id === 'userName') {
+                sortQuery['userData.name'] = sort.desc ? -1 : 1
+            } else {
+                sortQuery[sort.id] = sort.desc ? -1 : 1
+            }
         });
+
+        // Base Pipeline for Lookups
+        const basePipeline = [
+            {
+                $lookup: {
+                    from: 'products',
+                    let: { productId: '$product' },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: [{ $toString: '$_id' }, { $toString: '$$productId' }]
+                                }
+                            }
+                        }
+                    ],
+                    as: 'productData'
+                }
+            },
+            {
+                $unwind: { path: '$productData', preserveNullAndEmptyArrays: true }
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    let: { userId: '$user' },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: [{ $toString: '$_id' }, { $toString: '$$userId' }]
+                                }
+                            }
+                        }
+                    ],
+                    as: 'userData'
+                }
+            },
+            {
+                $unwind: { path: '$userData', preserveNullAndEmptyArrays: true }
+            }
+        ];
 
         // Aggregate pipeline
         const aggregatePipeline = [
-            {
-                $lookup:{
-                    from:'products',
-                    localField:'product',
-                    foreignField:'_id',
-                    as:'productData'
-                }
-            },
-            {
-                $unwind: {path: '$productData', preserveNullAndEmptyArrays: true}
-            },
-            {
-                $lookup:{
-                    from:'users',
-                    localField:'user',
-                    foreignField:'_id',
-                    as:'userData'
-                }
-            },
-            {
-                $unwind: {path: '$userData', preserveNullAndEmptyArrays: true}
-            },
+            ...basePipeline,
             { $match: matchQuery },
             { $sort: Object.keys(sortQuery).length ? sortQuery : { createdAt: -1 } },
             { $skip: start },
@@ -91,9 +118,10 @@ export async function GET(request) {
             {
                 $project: {
                     _id: 1,
-                    product: '$productData.name',
-                    user: '$userData.name',
+                    product: { $ifNull: ['$productData.name', 'N/A'] },
+                    userName: { $ifNull: ['$userData.name', 'Unknown User'] },
                     rating: 1,
+                    title: 1,
                     review: 1,
                     createdAt: 1,
                     updatedAt: 1,
@@ -101,11 +129,18 @@ export async function GET(request) {
                 }
             }
         ]
-        // excute query
+
+        // execute query
         const getReview = await ReviewModel.aggregate(aggregatePipeline)
 
-        // get totalRowCount
-        const totalRowCount = await ReviewModel.countDocuments(matchQuery)
+        // get totalRowCount (using aggregation to account for lookup filters)
+        const countPipeline = [
+            ...basePipeline,
+            { $match: matchQuery },
+            { $count: "total" }
+        ];
+        const countResult = await ReviewModel.aggregate(countPipeline);
+        const totalRowCount = countResult.length > 0 ? countResult[0].total : 0;
 
         return NextResponse.json({
             success: true,

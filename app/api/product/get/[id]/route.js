@@ -14,7 +14,7 @@ export async function GET(request, {params}){
 
         await connectDB()
 
-        const geParams = await params
+        const getParams = await params
         const {id} = await params
 
         const filter ={

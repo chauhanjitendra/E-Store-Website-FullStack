@@ -17,7 +17,7 @@ export async function POST(request) {
 
     const Schema = zSchema.pick({
       code: true,
-      discountPercentages: true,
+      discountPercentage: true,
       minShoppingAmount: true,
       validity: true,
     });
@@ -32,7 +32,7 @@ export async function POST(request) {
     // ✅ newCategory define kiya
     const newCoupon = new CouponModel({
       code: couponData.code,
-      discountPercentage: couponData.discountPercentages,
+      discountPercentage: couponData.discountPercentage,
       minShoppingAmount: couponData.minShoppingAmount,
       validity: couponData.validity,
     });

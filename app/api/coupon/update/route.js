@@ -19,7 +19,7 @@ export async function PUT(request) {
     const Schema = zSchema.pick({
       _id: true,
       code: true,
-      discountPercentages: true,
+      discountPercentage: true,
       minShoppingAmount: true,
       validity: true,
     });
@@ -37,7 +37,7 @@ export async function PUT(request) {
     }
 
     getCoupon.code = validatedData.code;
-    getCoupon.discountPercentage = validatedData.discountPercentages;
+    getCoupon.discountPercentage = validatedData.discountPercentage;
     getCoupon.minShoppingAmount = validatedData.minShoppingAmount;
     getCoupon.validity = validatedData.validity;
 

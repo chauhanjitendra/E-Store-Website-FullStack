@@ -82,7 +82,7 @@ export async function POST(request) {
       category: true,
       mrp: true,
       sellingPrice: true,
-      discountPercentages: true,
+      discountPercentage: true,
       description: true,
       media: true,
     });
@@ -110,7 +110,7 @@ export async function POST(request) {
       category: getProduct.category.toString(),
       mrp: Number(getProduct.mrp),
       sellingPrice: Number(getProduct.sellingPrice),
-      discountPercentages: Number(getProduct.discountPercentages),
+      discountPercentage: Number(getProduct.discountPercentage),
       description: decode(getProduct.description).trim(),
       media: getProduct.media.map((m) => m.toString()).sort().join(","),
     };
@@ -122,7 +122,7 @@ export async function POST(request) {
       category: validatedData.category.toString(),
       mrp: Number(validatedData.mrp),
       sellingPrice: Number(validatedData.sellingPrice),
-      discountPercentages: Number(validatedData.discountPercentages),
+      discountPercentage: Number(validatedData.discountPercentage),
       description: validatedData.description.trim(),
       media: validatedData.media.map((m) => m.toString()).sort().join(","),
     };
@@ -142,7 +142,7 @@ export async function POST(request) {
     getProduct.category = validatedData.category;
     getProduct.mrp = validatedData.mrp;
     getProduct.sellingPrice = validatedData.sellingPrice;
-    getProduct.discountPercentages = validatedData.discountPercentages;
+    getProduct.discountPercentage = validatedData.discountPercentage;
     getProduct.description = encode(validatedData.description);
     getProduct.media = validatedData.media;
 
