@@ -107,7 +107,7 @@ const orderSchema = new mongoose.Schema({
     default: null,
     index: true
   },
-}, { timestamps: true }, { timestamps: true });
+}, { timestamps: true });
 
 const OrderModel = mongoose.models.Order || mongoose.model('Order', orderSchema, 'orders')
 export default OrderModel

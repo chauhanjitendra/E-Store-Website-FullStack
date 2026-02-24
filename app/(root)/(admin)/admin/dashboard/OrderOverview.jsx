@@ -16,6 +16,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useEffect, useState } from "react";
+import useFetch from "@/hooks/useFetch";
 
 export const description = "A bar chart";
 
@@ -34,6 +36,21 @@ const chartData = [
   { month: "December", amount: 484 },
 ];
 
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 const chartConfig = {
   amount: {
     label: "Amount",
@@ -42,11 +59,29 @@ const chartConfig = {
   },
 };
 
-export function OderOverview() {
+export function OrderOverview() {
+  const [liveChartData, setLiveChartData] = useState([]);
+  const { data: monthlySales, loading } = useFetch(
+    "/api/dashboard/admin/monthly",
+  );
+
+  useEffect(() => {
+    if (monthlySales && monthlySales.success) {
+      const getChartData = months.map((month, index) => {
+        const monthData = monthlySales.data.find(item => item?._id?.month === index + 1)
+        return {
+          month: month,
+          amount: monthData ? monthData.totalSales : 0
+        }
+      })
+      setLiveChartData(getChartData);
+    }
+  }, [monthlySales]);
+
   return (
     <div>
       <ChartContainer config={chartConfig}>
-        <BarChart accessibilityLayer data={chartData}>
+        <BarChart accessibilityLayer data={liveChartData.length > 0 ? liveChartData : chartData}>
           <CartesianGrid vertical={false} />
           <XAxis
             dataKey="month"

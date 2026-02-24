@@ -38,7 +38,7 @@ export async function POST(request) {
 
     const newReview = new ReviewModel({
       product: productId,
-      user: auth.user._id,
+      user: auth?.userId || userId || null,
       rating: rating,
       title: title,
       review: review,

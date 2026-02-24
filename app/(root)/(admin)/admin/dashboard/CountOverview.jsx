@@ -6,12 +6,12 @@ import Link from "next/link";
 import React from "react";
 import { BiCategory } from "react-icons/bi";
 import { IoShirtOutline } from "react-icons/io5";
-import { LuUserRound } from "react-icons/lu"; 
+import { LuUserRound } from "react-icons/lu";
 import { MdOutlineShoppingBag } from "react-icons/md";
 
 const CountOverview = () => {
 
-    const {data: countData} = useFetch('/api/dashboard/admin/count')
+  const { data: countData } = useFetch('/api/dashboard/admin/count')
 
 
   return (
@@ -59,7 +59,7 @@ const CountOverview = () => {
         <div className="flex items-center justify-between p-3 rounded-lg border shadow border-l-4 border-l-cyan-500 bg-white dark:bg-card dark:border-gray-800 dark:border-l-cyan-400">
           <div>
             <h4 className="font-medium text-gray-500 dark:text-gray-200">Total Orders</h4>
-            <span className="text-xl font-bold">0</span>
+            <span className="text-xl font-bold">{countData?.data?.order || 0}</span>
           </div>
           <div>
             <span className="w-12 h-12 border flex justify-center items-center rounded-full bg-cyan-500 text-white">

@@ -29,7 +29,7 @@ import Link from "next/link";
 const AppSidebar = () => {
   const { toggleSidebar } = useSidebar()
   return (
-    <Sidebar className='z-50'>
+    <Sidebar className='z-[100]'>
       <SidebarHeader className="border-b h-14 p-0">
         <div className="flex justify-between items-center px-2">
           <Image

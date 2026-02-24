@@ -1,21 +1,9 @@
 "use client";
-import { Label, Pie, PieChart } from "recharts";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-
+import { useEffect, useState } from "react";
+import useFetch from "@/hooks/useFetch";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { PieChart, Pie, Label } from "recharts";
 export const description = "A donut chart";
-
-const chartData = [
-  { status: "pending", count: 275, fill: "var(--color-pending)" },
-  { status: "processing", count: 200, fill: "var(--color-processing)" },
-  { status: "shipped", count: 187, fill: "var(--color-shipped)" },
-  { status: "delivered", count: 173, fill: "var(--color-delivered)" },
-  { status: "cancelled", count: 90, fill: "var(--color-cancelled)" },
-  { status: "unverified", count: 90, fill: "var(--color-unverified)" },
-];
 
 const chartConfig = {
   pending: {
@@ -43,7 +31,33 @@ const chartConfig = {
     color: "#f97316",
   },
 };
+
 export function OrderStatus() {
+  const { data: statusData, loading } = useFetch("/api/dashboard/admin/order-status");
+  const [chartData, setChartData] = useState([
+    { status: "pending", count: 0, fill: "var(--color-pending)" },
+    { status: "processing", count: 0, fill: "var(--color-processing)" },
+    { status: "shipped", count: 0, fill: "var(--color-shipped)" },
+    { status: "delivered", count: 0, fill: "var(--color-delivered)" },
+    { status: "cancelled", count: 0, fill: "var(--color-cancelled)" },
+    { status: "unverified", count: 0, fill: "var(--color-unverified)" },
+  ]);
+
+  useEffect(() => {
+    if (statusData && statusData.success) {
+      const updatedData = chartData.map(item => {
+        const found = statusData.data.find(d => d._id === item.status);
+        return {
+          ...item,
+          count: found ? found.count : 0
+        };
+      });
+      setChartData(updatedData);
+    }
+  }, [statusData]);
+
+  const totalOrders = chartData.reduce((acc, curr) => acc + curr.count, 0);
+
   return (
     <div>
       <ChartContainer
@@ -73,7 +87,7 @@ export function OrderStatus() {
                         y={viewBox.cy}
                         className="fill-foreground text-3xl font-bold"
                       >
-                        100
+                        {totalOrders}
                       </tspan>
                       <tspan
                         x={viewBox.cx}
@@ -93,42 +107,14 @@ export function OrderStatus() {
 
       <div className="">
         <ul>
-          <li className="flex justify-between items-center mb-3 text-sm">
-            <span>Pending</span>
-            <span className="rounded-full px-2 text-sm bg-blue-500 text-white">
-              0
-            </span>
-          </li>
-          <li className="flex justify-between items-center mb-3 text-sm">
-            <span>Processing</span>
-            <span className="rounded-full px-2 text-sm bg-yellow-500 text-white">
-              0
-            </span>
-          </li>
-          <li className="flex justify-between items-center mb-3 text-sm">
-            <span>Shipped</span>
-            <span className="rounded-full px-2 text-sm bg-cyan-500 text-white">
-              0
-            </span>
-          </li>
-          <li className="flex justify-between items-center mb-3 text-sm">
-            <span>Delivered</span>
-            <span className="rounded-full px-2 text-sm bg-green-500 text-white">
-              0
-            </span>
-          </li>
-          <li className="flex justify-between items-center mb-3 text-sm">
-            <span>Cancelled</span>
-            <span className="rounded-full px-2 text-sm bg-red-500 text-white">
-              0
-            </span>
-          </li>
-          <li className="flex justify-between items-center mb-3 text-sm">
-            <span>Unverified</span>
-            <span className="rounded-full px-2 text-sm bg-orange-500 text-white">
-              0
-            </span>
-          </li>
+          {chartData.map((item) => (
+            <li key={item.status} className="flex justify-between items-center mb-3 text-sm capitalize">
+              <span>{item.status}</span>
+              <span className={`rounded-full px-2 text-sm text-white`} style={{ backgroundColor: chartConfig[item.status]?.color }}>
+                {item.count}
+              </span>
+            </li>
+          ))}
         </ul>
       </div>
     </div>

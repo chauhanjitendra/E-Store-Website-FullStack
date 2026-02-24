@@ -26,6 +26,14 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/reducer/authReducer";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import CameraModal from "@/components/Application/website/CameraModal";
+
 const breadCrumbData = {
   title: "Profile",
   links: [{ label: "Profile" }],
@@ -37,6 +45,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState();
   const [file, setFile] = useState();
+  const [openCamera, setOpenCamera] = useState(false);
 
   // ✅ schema
   const formSchema = zSchema.pick({
@@ -68,9 +77,16 @@ const Profile = () => {
 
   const handleFileSelection = (files) => {
     const file = files[0];
-    const preview = URL.createObjectURL(file);
-    setPreview(preview);
-    setFile(file);
+    if (file) {
+      const preview = URL.createObjectURL(file);
+      setPreview(preview);
+      setFile(file);
+    }
+  };
+
+  const handleCameraCapture = (capturedFile) => {
+    setFile(capturedFile);
+    setPreview(URL.createObjectURL(capturedFile));
   };
 
   const updateProfile = async (values) => {
@@ -112,23 +128,45 @@ const Profile = () => {
                 onSubmit={form.handleSubmit(updateProfile)}
               >
                 <div className="md:col-span-2 col-span-1 flex justify-center items-center">
-                  <Dropzone
-                    onDrop={(acceptedFiles) =>
-                      handleFileSelection(acceptedFiles)
-                    }
-                  >
-                    {({ getRootProps, getInputProps }) => (
-                      <div {...getRootProps()}>
-                        <input {...getInputProps()} />
-                        <Avatar className="w-28 h-28 relative group border border-gray-100">
-                          <AvatarImage src={preview ? preview : userIcon.src} />
-                          <div className="absolute z-50 w-full h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 justify-center items-center border-2 border-violet-500 rounded-full group-hover:flex hidden cursor-pointer bg-black/30">
-                            <FaCamera color="#7c3aed" />
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <div className="relative group cursor-pointer">
+                        <Avatar className="w-28 h-28 border-2 border-primary/20 hover:border-primary transition-all duration-300">
+                          <AvatarImage src={preview ? preview : userIcon.src} className="object-cover" />
+                          <div className="absolute z-10 w-full h-full top-0 left-0 bg-black/40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full">
+                            <FaCamera className="text-white text-2xl" />
                           </div>
                         </Avatar>
                       </div>
-                    )}
-                  </Dropzone>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="center" className="w-48">
+                      <DropdownMenuItem className="cursor-pointer">
+                        <Dropzone
+                          onDrop={(acceptedFiles) => handleFileSelection(acceptedFiles)}
+                          multiple={false}
+                        >
+                          {({ getRootProps, getInputProps }) => (
+                            <div {...getRootProps()} className="flex items-center w-full">
+                              <input {...getInputProps()} />
+                              <span>Upload Photo</span>
+                            </div>
+                          )}
+                        </Dropzone>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="cursor-pointer"
+                        onClick={() => setOpenCamera(true)}
+                      >
+                        Capture from Camera
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+
+                  <CameraModal
+                    open={openCamera}
+                    onOpenChange={setOpenCamera}
+                    onCapture={handleCameraCapture}
+                  />
                 </div>
                 <div className="mb-3">
                   <FormField

@@ -15,7 +15,7 @@ const TopBar = () => {
   const { toggleSidebar } = useSidebar();
 
   return (
-    <div className="fixed border h-14 w-full top-0 left-0 z-0 md:ps-72 md:pe-5 px-5 flex justify-between items-center dark:bg-card">
+    <div className="fixed border-b h-14 w-full top-0 left-0 z-50 md:ps-64 md:pe-5 px-5 flex justify-between items-center bg-background dark:bg-card">
       <div className="flex items-center md:hidden">
         <Image
           src={logoblack.src}
@@ -32,11 +32,11 @@ const TopBar = () => {
           alt="logo-white"
         ></Image>
       </div>
-      <div className="md:block hidden">
+      <div className="md:block hidden pl-5">
         <AdminSearch />
       </div>
       <div className="flex items-center gap-2">
-        <AdminMobileSearch/>
+        <AdminMobileSearch />
         <ThemeSwitch />
         <UserDropDown />
         <Button

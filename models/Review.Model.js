@@ -1,36 +1,36 @@
 import mongoose from "mongoose";
 
 const ReviewSchema = new mongoose.Schema({
-    product:{
+    product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
         require: true,
     },
-    user:{
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         // require: true,
         default: null,
     },
-    rating:{
+    rating: {
         type: Number,
         require: true,
     },
-    title:{
+    title: {
         type: String,
         require: true,
     },
-    review:{
+    review: {
         type: String,
         require: true,
     },
-    deletedAt:{
+    deletedAt: {
         type: Date,
         default: null,
         index: true,
     },
-    
-},  {timestamps: true})
+
+}, { timestamps: true })
 
 
 const ReviewModel = mongoose.models.Review || mongoose.model('Review', ReviewSchema, 'Reviews')
