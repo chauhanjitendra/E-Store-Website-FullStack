@@ -1,4 +1,4 @@
-import WebsiteBreadcrumb from '@/components/Application/Website/WebsiteBreadcrumb'
+import WebsiteBreadcrumb from '@/components/Application/website/WebsiteBreadcrumb'
 import React from 'react'
 
 const breadcrumb = {
