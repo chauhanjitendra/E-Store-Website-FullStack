@@ -11,63 +11,82 @@ import slider4 from "@/public/assets/images/slider-4.png";
 import Image from "next/image";
 import { FaChevronLeft } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const ArrowNext = (props) => {
   const { onClick } = props
   return (
-    <button onClick={onClick}
+    <motion.button
+      whileHover={{ scale: 1.1, backgroundColor: "#f3f4f6" }}
+      whileTap={{ scale: 0.9 }}
+      onClick={onClick}
       type="button"
-      className="w-14 h-14 flex justify-center items-center rounded-full absolute z-10 top-1/2 -translate-y-1/2 bg-white right-10 "
+      className="w-5 h-5 flex justify-center items-center rounded-full absolute z-10 top-1/2 -translate-y-1/2 right-10 shadow-lg"
     >
       <FaChevronRight size={25} className="text-gray-600" />
-    </button>
+    </motion.button>
   );
 };
 
-const ArrowPrev= (props) => {
+const ArrowPrev = (props) => {
   const { onClick } = props
   return (
-    <button onClick={onClick}
+    <motion.button
+      whileHover={{ scale: 1.1, backgroundColor: "#f3f4f6" }}
+      whileTap={{ scale: 0.9 }}
+      onClick={onClick}
       type="button"
-      className="w-14 h-14 flex justify-center items-center rounded-full absolute z-10 top-1/2 -translate-y-1/2 bg-white left-10 "
+      className="w-5 h-5 flex justify-center items-center rounded-full absolute z-10 top-1/2 -translate-y-1/2 left-10 shadow-lg"
     >
       <FaChevronLeft size={25} className="text-gray-600" />
-    </button>
+    </motion.button>
   );
 };
 
 const MainSlider = () => {
   const settings = {
     dots: true,
-    Infinity: true,
-    speed: 500,
+    infinite: true,
+    speed: 800,
     autoplay: true,
-    nextArrow: <ArrowNext/>,
-    prevArrow: <ArrowPrev/>,
+    autoplaySpeed: 5000,
+    nextArrow: <ArrowNext />,
+    prevArrow: <ArrowPrev />,
 
-    responsive:[
-        {
-            breakpoint: 480,
-            settings:{
-                dots: false,
-                arrow: false,
-                nextArrow: '',
-                prevArrow:'',
-            }
+    responsive: [
+      {
+        breakpoint: 480,
+        settings: {
+          dots: false,
+          arrow: false,
+          nextArrow: '',
+          prevArrow: '',
         }
+      }
     ]
   };
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       <Slider {...settings}>
-        <div>
-          <Image
-            src={slider1.src}
-            width={slider1.width}
-            height={slider1.height}
-            alt="slider 1"
-          />
+        <div className="relative">
+          <motion.div
+            initial={{ scale: 1.1 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.5 }}
+          >
+            <Image
+              src={slider1.src}
+              width={slider1.width}
+              height={slider1.height}
+              alt="slider 1"
+              priority
+            />
+          </motion.div>
         </div>
         <div>
           <Image
@@ -94,7 +113,7 @@ const MainSlider = () => {
           />
         </div>
       </Slider>
-    </div>
+    </motion.div>
   );
 };
 

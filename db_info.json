@@ -1,0 +1,61 @@
+{
+  "categories": [
+    {
+      "_id": "697c86b8667ce75ea061e489",
+      "name": "T-Shirts",
+      "slug": "t-shirts"
+    },
+    {
+      "_id": "697c86c8667ce75ea061e48b",
+      "name": "Oversized",
+      "slug": "oversized"
+    },
+    {
+      "_id": "697c86d1667ce75ea061e48d",
+      "name": "Hoodies",
+      "slug": "hoodies"
+    },
+    {
+      "_id": "697c86df667ce75ea061e48f",
+      "name": "Full Sleeves",
+      "slug": "full-sleeves"
+    },
+    {
+      "_id": "697c86e4667ce75ea061e491",
+      "name": "Polo",
+      "slug": "polo"
+    }
+  ],
+  "media": [
+    {
+      "_id": "697c876c667ce75ea061e4be"
+    },
+    {
+      "_id": "697c876c667ce75ea061e4c0"
+    },
+    {
+      "_id": "697c876c667ce75ea061e4c2"
+    },
+    {
+      "_id": "697c876c667ce75ea061e4ab"
+    },
+    {
+      "_id": "697c876c667ce75ea061e4b5"
+    },
+    {
+      "_id": "697c876c667ce75ea061e4bb"
+    },
+    {
+      "_id": "697c876c667ce75ea061e4b1"
+    },
+    {
+      "_id": "697c876c667ce75ea061e4b7"
+    },
+    {
+      "_id": "697c876c667ce75ea061e4ba"
+    },
+    {
+      "_id": "697c876c667ce75ea061e4bd"
+    }
+  ]
+}

@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button";
 import { RiMenu4Fill } from "react-icons/ri";
 import { useSidebar } from "@/components/ui/sidebar";
 import AdminSearch from "./AdminSearch";
-import logoblack from "@/public/assets/images/logo-black.png";
-import logowhite from "@/public/assets/images/logo-white.png";
-import Image from "next/image";
+import Logo from "../Logo";
 import AdminMobileSearch from "./AdminMobileSearch";
 
 const TopBar = () => {
@@ -17,20 +15,8 @@ const TopBar = () => {
   return (
     <div className="fixed border-b h-14 w-full top-0 left-0 z-50 md:ps-64 md:pe-5 px-5 flex justify-between items-center bg-background dark:bg-card">
       <div className="flex items-center md:hidden">
-        <Image
-          src={logoblack.src}
-          height={50}
-          width={logoblack.width}
-          className="block dark:hidden h-[50px] w-auto"
-          alt="logo-dark"
-        ></Image>
-        <Image
-          src={logowhite.src}
-          height={50}
-          width={logowhite.width}
-          className="hidden dark:block h-[50px] w-auto"
-          alt="logo-white"
-        ></Image>
+        <Logo variant="dark" className="block dark:hidden" />
+        <Logo variant="light" className="hidden dark:block" />
       </div>
       <div className="md:block hidden pl-5">
         <AdminSearch />

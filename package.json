@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.30",
+    "@ai-sdk/react": "^3.0.99",
     "@ckeditor/ckeditor5-react": "^11.0.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -29,6 +31,7 @@
     "@reduxjs/toolkit": "^2.11.2",
     "@tanstack/react-query": "^5.90.16",
     "@tanstack/react-query-devtools": "^5.91.2",
+    "ai": "^6.0.97",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
     "ckeditor5": "^47.4.0",
@@ -40,6 +43,7 @@
     "dotenv": "^17.3.1",
     "entities": "^7.0.0",
     "export-to-csv": "^1.4.0",
+    "framer-motion": "^12.34.3",
     "fuse.js": "^7.1.0",
     "input-otp": "^1.4.2",
     "jose": "^6.1.3",

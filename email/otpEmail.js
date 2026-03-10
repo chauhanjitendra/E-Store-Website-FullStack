@@ -1,5 +1,5 @@
 export const otpEmail = (otp) => {
-  const html = `
+	const html = `
 <!DOCTYPE html>
 <html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
 <head>
@@ -214,5 +214,5 @@ export const otpEmail = (otp) => {
 
       `;
 
-  return html;
+	return html;
 };

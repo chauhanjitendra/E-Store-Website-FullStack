@@ -97,10 +97,10 @@ const Filter = () => {
     router.push(`${WEBSITE_SHOP}?${urlSearchParams}`);
   };
 
-  const handlePriceFilter = ()=>{
+  const handlePriceFilter = () => {
     urlSearchParams.set('minPrice', priceFilter.minPrice)
     urlSearchParams.set('maxPrice', priceFilter.maxPrice)
-     router.push(`${WEBSITE_SHOP}?${urlSearchParams}`);
+    router.push(`${WEBSITE_SHOP}?${urlSearchParams}`);
   }
 
   return (
@@ -108,7 +108,7 @@ const Filter = () => {
       {searchParams.size > 0 &&
         <Button type='button' asChild variant="destructive" className='w-full'>
           <Link href={WEBSITE_SHOP}>
-              Clear Filter
+            Clear Filter
           </Link>
         </Button>
       }

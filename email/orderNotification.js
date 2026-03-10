@@ -1,5 +1,5 @@
 export const orderNotification = (data) => {
-  const html = `
+	const html = `
         <!DOCTYPE html>
   <html lang="en-US" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
 <head>
@@ -756,5 +756,5 @@ export const orderNotification = (data) => {
 </html>
 `;
 
-  return html;
+	return html;
 };

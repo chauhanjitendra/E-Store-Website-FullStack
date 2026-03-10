@@ -4,8 +4,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { FaStar } from "react-icons/fa6";
-import { BsChatQuote } from "react-icons/bs";
-
+import { BsChatQuote as BsChatQuoteIcon } from "react-icons/bs";
+import { motion } from "framer-motion";
+import MotionSection from "./MotionSection";
 
 const testimonials = [
   {
@@ -83,12 +84,11 @@ Consistency like this keeps customers coming back.`,
 const Testimonial = () => {
   const settings = {
     dots: true,
-    Infinite: true,
+    infinite: true,
     speed: 500,
     autoplay: true,
     slidesToShow: 3,
     slidesToScroll: 1,
-
     responsive: [
       {
         breakpoint: 1024,
@@ -109,31 +109,37 @@ const Testimonial = () => {
       },
     ],
   };
+
   return (
-    <div className="lg:px-32 px-4 sm:pt-20 pt-5 pb-10">
-      <h2 className="text-center sm:text-4xl text-2xl mb-5 font-semibold">
-        Customer Review
+    <MotionSection className="lg:px-32 px-4 sm:pt-20 pt-5 pb-10">
+      <h2 className="text-center sm:text-4xl text-2xl mb-8 font-semibold text-gray-800">
+        What Our Customers Say
       </h2>
       <Slider {...settings}>
         {testimonials.map((item, index) => (
           <div key={index} className="p-5">
-            <div className="border rounded-lg p-5 ">
-                <BsChatQuote size={30} className="mb-3"/>
-              <p className="mb-5">{item.review}</p>
-              <h4 className="font-semibold">{item.name}</h4>
-              <div className="flex mt-1">
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="border rounded-xl p-6 bg-white shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col"
+            >
+              <BsChatQuoteIcon size={30} className="mb-4 text-primary opacity-20" />
+              <p className="mb-6 text-gray-600 italic leading-relaxed flex-grow">
+                "{item.review}"
+              </p>
+              <h4 className="font-bold text-gray-800">{item.name}</h4>
+              <div className="flex mt-2">
                 {Array.from({ length: item.rating }).map((_, i) => (
                   <FaStar
                     key={`star${i}`}
-                    className="text-yellow-400 size-{20}"
+                    className="text-yellow-400 text-lg"
                   />
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
         ))}
       </Slider>
-    </div>
+    </MotionSection>
   );
 };
 

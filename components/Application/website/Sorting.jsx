@@ -22,10 +22,10 @@ const Sorting = ({
 }) => {
   return (
     <div className="flex justify-between items-center flex flex-wrap gap-2 p-4 bg-gray-50">
-        <Button type='button' className='lg:hidden' variant="outline" onClick={()=> setMobileFilterOpen(!mobileFiltterOpen)}>
-            <FaFilter/>
-            Filter
-        </Button>
+      <Button type='button' className='lg:hidden' variant="outline" onClick={() => setMobileFilterOpen(!mobileFiltterOpen)}>
+        <FaFilter />
+        Filter
+      </Button>
 
       <ul className="flex items-center gap-5">
         <li className="font-semibold">Show</li>
@@ -41,14 +41,14 @@ const Sorting = ({
           </li>
         ))}
       </ul>
-      <Select value={sorting} onValueChange={(value)=> setSorting(value)}>
+      <Select value={sorting} onValueChange={(value) => setSorting(value)}>
         <SelectTrigger className='md:w-[180px] w-full bg-white'>
           <SelectValue placeholder="Default Sorting" />
         </SelectTrigger>
         <SelectContent position="popper">
           <SelectGroup>
-            {sortings.map(option =>(
-                <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+            {sortings.map(option => (
+              <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
             ))}
           </SelectGroup>
         </SelectContent>

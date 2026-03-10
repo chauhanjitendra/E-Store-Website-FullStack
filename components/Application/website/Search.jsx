@@ -32,4 +32,3 @@ const Search = ({ isShow }) => {
 };
 
 export default Search;
- 

@@ -1,0 +1,16 @@
+﻿[dotenv@17.3.1] injecting env (15) from .env.local -- tip: ΓÜÖ∩╕Å  override existing env vars with { override: true }
+Connected to MongoDB
+Found Media Items: [
+  {
+    "_id": "69989231fefa4cae23c1fdcf",
+    "asset_id": "c255d094bf47060f05f1853fdc286eec",
+    "public_id": "logo-black_pzg6lf",
+    "path": "v1771606579/logo-black_pzg6lf.webp",
+    "thumbnail_url": "https://res.cloudinary.com/dcxg2c8is/image/upload/c_limit,h_60,w_90/v1771606579/logo-black_pzg6lf.jpg",
+    "secure_url": "https://res.cloudinary.com/dcxg2c8is/image/upload/v1771606579/logo-black_pzg6lf.webp",
+    "deletedAt": null,
+    "__v": 0,
+    "createdAt": "2026-02-20T16:56:17.821Z",
+    "updatedAt": "2026-02-20T16:56:17.821Z"
+  }
+]

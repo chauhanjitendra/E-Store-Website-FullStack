@@ -12,9 +12,7 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import Image from "next/image";
-import logoblack from "@/public/assets/images/logo-black.png";
-import logowhite from "@/public/assets/images/logo-white.png";
+import Logo from "../Logo";
 import { Button } from "@/components/ui/button";
 import { LuChevronRight } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
@@ -31,21 +29,9 @@ const AppSidebar = () => {
   return (
     <Sidebar className='z-[100]'>
       <SidebarHeader className="border-b h-14 p-0">
-        <div className="flex justify-between items-center px-2">
-          <Image
-            src={logoblack.src}
-            height={50}
-            width={logoblack.width}
-            className="block dark:hidden h-[50px] w-auto"
-            alt="logo-dark"
-          ></Image>
-          <Image
-            src={logowhite.src}
-            height={50}
-            width={logowhite.width}
-            className="hidden dark:block h-[50px] w-auto"
-            alt="logo-white"
-          ></Image>
+        <div className="flex justify-between items-center px-4">
+          <Logo variant="dark" className="block dark:hidden" />
+          <Logo variant="light" className="hidden dark:block" />
           <Button onClick={toggleSidebar} type="button" size="icon" className="md:hidden">
             <IoMdClose />
           </Button>
