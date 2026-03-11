@@ -5,6 +5,7 @@ import { WEBSITE_CHECKOUT, WEBSITE_PRODUCT_DETAILS, WEBSITE_SHOP } from "@/route
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import imgPlaceholder from "@/public/assets/images/img-placeholder.webp";
 import { HiMinus, HiPlus } from "react-icons/hi2";
@@ -20,6 +21,14 @@ const bredCrumb = {
 };
 
 const CartPage = () => {
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!document.cookie.includes("access_token=")) {
+      router.push("/auth/login");
+    }
+  }, [router]);
+
   const dispatch = useDispatch();
   const cart = useSelector((store) => store.cartStore);
   const [subTotal, setSubtotal] = useState(0);

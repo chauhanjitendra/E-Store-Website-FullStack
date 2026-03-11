@@ -7,6 +7,7 @@ import useFetch from "@/hooks/useFetch";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { WEBSITE_ORDER_DETAILS } from "@/routes/WebsiteRoute";
+import { motion } from "framer-motion";
 
 const MyAccount = () => {
   const breadCrumbData = {
@@ -21,11 +22,27 @@ const MyAccount = () => {
     <div>
       <WebsiteBreadcrumb props={breadCrumbData} />
       <UserPanelLayout>
-        <div className="shadow rounded bg-white overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="shadow rounded bg-white overflow-hidden"
+        >
           <div className="p-5 text-xl font-semibold border-b">Dashboard</div>
           <div className="p-5">
-            <div className="grid lg:grid-cols-2 grid-cols-1 gap-10">
-              <div className="flex items-center justify-between gap-5 border rounded p-3">
+            <motion.div
+              className="grid lg:grid-cols-2 grid-cols-1 gap-10"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+              }}
+            >
+              <motion.div
+                variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
+                className="flex items-center justify-between gap-5 border rounded p-3"
+              >
                 <div>
                   <h4 className="font-semibold text-lg mb-1">Total Order</h4>
                   <span className="font-semibold text-gray-500">
@@ -35,8 +52,11 @@ const MyAccount = () => {
                 <div className="w-16 h-16 bg-primary rounded-full flex justify-center items-center">
                   <HiShoppingBag className="text-white" size={25} />
                 </div>
-              </div>
-              <div className="flex items-center justify-between gap-5 border rounded p-3">
+              </motion.div>
+              <motion.div
+                variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
+                className="flex items-center justify-between gap-5 border rounded p-3"
+              >
                 <div>
                   <h4 className="font-semibold text-lg mb-1">Items In Cart</h4>
                   <span className="font-semibold text-gray-500">
@@ -46,8 +66,8 @@ const MyAccount = () => {
                 <div className="w-16 h-16 bg-primary rounded-full flex justify-center items-center">
                   <FaCartArrowDown className="text-white" size={25} />
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             <div className="mt-5">
               <h4 className="text-lg font-semibold mb-3">Recent Orders</h4>
@@ -72,7 +92,13 @@ const MyAccount = () => {
                   <tbody>
                     {dashboardData &&
                       dashboardData?.data?.recentOrders?.map((order, index) => (
-                        <tr key={order._id}>
+                        <motion.tr
+                          key={order._id}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="hover:bg-gray-50"
+                        >
                           <td className="text-start text-sm text-gray-500 p-2 font-bold">
                             {index + 1}
                           </td>
@@ -93,14 +119,14 @@ const MyAccount = () => {
                               currency: "INR",
                             })}
                           </td>
-                        </tr>
+                        </motion.tr>
                       ))}
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </UserPanelLayout>
     </div>
   );

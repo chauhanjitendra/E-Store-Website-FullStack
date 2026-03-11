@@ -1,5 +1,17 @@
-export const orderNotification = (data) => {
+import { getImageAsBase64 } from '../lib/utils.js';
+
+export const orderNotification = async (data) => {
+    const [logoSrc, checkSrc, orderIconSrc, fbSrc, twSrc, igSrc] = await Promise.all([
+        getImageAsBase64('https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723919/email/logo-black_k91wsq.webp'),
+        getImageAsBase64('https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723918/email/check-orange_jcdn2x.webp'),
+        getImageAsBase64('https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723920/email/order-conf-icon_htjcko.webp'),
+        getImageAsBase64('https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723919/email/facebook2x_wa4kur.webp'),
+        getImageAsBase64('https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723919/email/twitter2x_jfqepa.webp'),
+        getImageAsBase64('https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723919/email/instagram2x_c45ssv.webp'),
+    ]);
 	const html = `
+        <!DOCTYPE html>
+  <html lang="en-US" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
         <!DOCTYPE html>
   <html lang="en-US" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
 <head>
@@ -210,7 +222,7 @@ export const orderNotification = (data) => {
 																style="width:100%;padding-right:0px;padding-left:0px;">
 																<div align="center" class="alignment">
 																	<div style="max-width: 248px;"><img alt="Logo"
-																			height="auto" src="https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723919/email/logo-black_k91wsq.webp"
+																			height="auto" src="${logoSrc}"
 																			style="display: block; height: auto; border: 0; width: 100%;"
 																			title="Logo" width="248" /></div>
 																</div>
@@ -285,7 +297,7 @@ export const orderNotification = (data) => {
 																style="width:100%;padding-right:0px;padding-left:0px;">
 																<div align="center" class="alignment">
 																	<div style="max-width: 13px;"><img alt="Check"
-																			height="auto" src="https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723918/email/check-orange_jcdn2x.webp"
+																			height="auto" src="${checkSrc}"
 																			style="display: block; height: auto; border: 0; width: 100%;"
 																			title="Check" width="13" /></div>
 																</div>
@@ -426,7 +438,7 @@ export const orderNotification = (data) => {
 																<div align="center" class="alignment">
 																	<div style="max-width: 130px;"><img
 																			alt="a hand with a star" height="auto"
-																			src="https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723920/email/order-conf-icon_htjcko.webp"
+																			src="${orderIconSrc}"
 																			style="display: block; height: auto; border: 0; width: 100%;"
 																			title="a hand with a star" width="130" />
 																	</div>
@@ -525,7 +537,7 @@ export const orderNotification = (data) => {
 																					href="https://www.facebook.com/"
 																					target="_blank"><img alt="facebook"
 																						height="auto"
-																						src="https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723919/email/facebook2x_wa4kur.webp"
+																						src="${fbSrc}"
 																						style="display: block; height: auto; border: 0;"
 																						title="facebook"
 																						width="32" /></a></td>
@@ -533,7 +545,7 @@ export const orderNotification = (data) => {
 																					href="https://www.twitter.com/"
 																					target="_blank"><img alt="twitter"
 																						height="auto"
-																						src="https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723919/email/twitter2x_jfqepa.webp"
+																						src="${twSrc}"
 																						style="display: block; height: auto; border: 0;"
 																						title="twitter"
 																						width="32" /></a></td>
@@ -541,7 +553,7 @@ export const orderNotification = (data) => {
 																					href="https://www.instagram.com/"
 																					target="_blank"><img alt="instagram"
 																						height="auto"
-																						src="https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723919/email/instagram2x_c45ssv.webp"
+																						src="${igSrc}"
 																						style="display: block; height: auto; border: 0;"
 																						title="instagram"
 																						width="32" /></a></td>

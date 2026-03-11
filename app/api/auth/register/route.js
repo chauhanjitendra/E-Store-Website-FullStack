@@ -68,12 +68,13 @@ export async function POST(request) {
       .sign(secret);
 
     // ✅ Send email
+    const html = await emailVerificationLink(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-email/${token}`
+    );
     await sendMail(
       "Email Verification request from Developer Jitendra",
       email,
-      emailVerificationLink(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-email/${token}`
-      )
+      html
     );
 
     return NextResponse.json(

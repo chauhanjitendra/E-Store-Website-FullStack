@@ -54,5 +54,8 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/my-account/:path*", "/auth/:path*"],
+  // protect admin dashboard, user account sections, authentication pages,
+  // and the shop listings (including category filters) so that unauthenticated
+  // visitors are sent to the login screen.
+  matcher: ["/admin/:path*", "/my-account/:path*", "/auth/:path*", "/shop/:path*", "/cart/:path*"],
 };

@@ -1,4 +1,7 @@
-export const emailVerificationLink = (link) => {
+import { getImageAsBase64 } from '../lib/utils.js';
+
+export const emailVerificationLink = async (link) => {
+    const imageSrc = await getImageAsBase64('https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723922/email/otp-email_nzsc4p.webp');
     const html = `
 <!DOCTYPE html>
 <html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
@@ -127,7 +130,7 @@ export const emailVerificationLink = (link) => {
                                                                     style="line-height:10px">
                                                                     <div style="max-width: 250px;"><img
                                                                             alt="reset-password" height="auto"
-                                                                            src="https://res.cloudinary.com/dcxg2c8is/image/upload/v1767723922/email/otp-email_nzsc4p.webp"
+                                                                            src="${imageSrc}"
                                                                             style="display: block; height: auto; border: 0; width: 100%;"
                                                                             title="reset-password" width="250" /></div>
                                                                 </div>

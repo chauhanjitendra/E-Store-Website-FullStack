@@ -33,7 +33,8 @@ export async function POST(request){
 
         await newOtpData.save()
 
-        const otpSendStatus = await sendMail('Your Login Verification Code.',email,otpEmail(otp))
+        const html = await otpEmail(otp);
+        const otpSendStatus = await sendMail('Your Login Verification Code.',email, html)
         if(!otpSendStatus.success){
             return response(false, 400 ,'Failed To Resend OTP.')
         }

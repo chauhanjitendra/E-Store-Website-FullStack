@@ -88,7 +88,8 @@ export async function POST(request) {
                 orderDetailsUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/order-details/${validatedData.razorpay_order_id}`,
             }
 
-            await sendMail('Order Place Succesfully.', validatedData.email, orderNotification(mailData))
+            const html = await orderNotification(mailData);
+            await sendMail('Order Place Succesfully.', validatedData.email, html)
         } catch (error) {
             return catchError(error)
         }

@@ -46,12 +46,13 @@ export async function POST(request) {
         
             // ✅ Send email
             try {
+              const html = await emailVerificationLink(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-email/${token}`
+              );
               await sendMail(
                 "Email Verification request from Developer Jitendra",
                 email,
-                emailVerificationLink(
-                  `${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-email/${token}`
-                )
+                html
               );
             } catch (mailError) {
               console.error("Mail sending error:", mailError);
@@ -80,7 +81,8 @@ export async function POST(request) {
 
     await newOtpData.save()
     
-    const otpEmailStatus = await sendMail('Your Login Verification Code', email, otpEmail(otp))
+    const html = await otpEmail(otp);
+    const otpEmailStatus = await sendMail('Your Login Verification Code', email, html)
     if(!otpEmailStatus.success){
         return response(false,400, 'Failed To Send OTP.')
     }

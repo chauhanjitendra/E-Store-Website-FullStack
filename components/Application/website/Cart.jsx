@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import imgPlaceholder from "@/public/assets/images/img-placeholder.webp";
 import { removeFromCart } from "@/store/reducer/cartReducer";
 import { Button } from "@/components/ui/button";
@@ -26,7 +27,16 @@ const Cart = () => {
   const [discount, setDiscount] = useState(0);
 
   const cart = useSelector((store) => store.cartStore);
+  const auth = useSelector((store) => store.authStore.auth);
   const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleCartIconClick = (e) => {
+    if (!auth) {
+      e.preventDefault();
+      router.push("/auth/login");
+    }
+  };
 
   useEffect(() => {
     const cartProducts = cart.products;
@@ -46,11 +56,17 @@ const Cart = () => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger className="relative">
-        <IoCartOutline size={25} className="text-gray-500 hover:text-primary" />
-        <span className="absolute bg-red-500 text-white text-xs rounded-full w-4 h-4 flex justify-center items-center -right-2 -top-1">
-          {cart.count}
-        </span>
+      <SheetTrigger asChild>
+        <button
+          className="relative"
+          type="button"
+          onClick={handleCartIconClick}
+        >
+          <IoCartOutline size={25} className="text-gray-500 hover:text-primary" />
+          <span className="absolute bg-red-500 text-white text-xs rounded-full w-4 h-4 flex justify-center items-center -right-2 -top-1">
+            {cart.count}
+          </span>
+        </button>
       </SheetTrigger>
       <SheetContent className='sm:max-w-[450px] w-full'>
         <SheetHeader className="py-2">

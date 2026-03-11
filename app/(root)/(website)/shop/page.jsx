@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sheet";
 import useWindowSize from "@/hooks/useWindowSize";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ProductBox from "@/components/Application/website/ProductBox";
 import ButtonLoading from "@/components/Application/ButtonLoading";
@@ -26,10 +26,19 @@ const bredcrumb = {
   links: [{ label: "Shop", href: WEBSITE_SHOP }],
 };
 const Shop = () => {
-  const searchParams = useSearchParams().toString()
+  const router = useRouter();
+
+  // immediately redirect on the client if the auth token is missing
+  React.useEffect(() => {
+    if (!document.cookie.includes("access_token=")) {
+      router.push("/auth/login");
+    }
+  }, [router]);
+
+  const searchParams = useSearchParams().toString();
   const [limit, setLimit] = useState(9);
   const [sorting, setSorting] = useState("default_sorting");
-  const [isMobileFilter, setIsMobileFilter] = useState(false)
+  const [isMobileFilter, setIsMobileFilter] = useState(false);
   const windowSize = useWindowSize();
 
   const fetchProduct = async (pageParam) => {

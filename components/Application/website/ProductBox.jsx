@@ -5,8 +5,20 @@ import imagePlaceholder from "@/public/assets/images/img-placeholder.webp";
 import Link from "next/link";
 import { WEBSITE_PRODUCT_DETAILS } from "@/routes/WebsiteRoute";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const ProductBox = ({ product }) => {
+  const router = useRouter();
+  const auth = useSelector((store) => store.authStore.auth);
+
+  const handleLinkClick = (e) => {
+    if (!auth) {
+      e.preventDefault();
+      router.push("/auth/login");
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -15,7 +27,7 @@ const ProductBox = ({ product }) => {
       whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
       className="rounded-lg border overflow-hidden bg-white transition-all duration-300"
     >
-      <Link href={WEBSITE_PRODUCT_DETAILS(product.slug)}>
+      <Link href={WEBSITE_PRODUCT_DETAILS(product.slug)} onClick={handleLinkClick}>
         <div className="overflow-hidden">
           <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.4 }}>
             <Image
